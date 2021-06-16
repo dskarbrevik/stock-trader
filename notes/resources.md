@@ -1,1 +1,1 @@
-https://analyzingalpha.com/python-trading-tools
+https://github.com/alpacahq/alpaca-trade-api-python

@@ -3,3 +3,4 @@ scipy
 pandas
 alpaca-trade-api
 quandl
+jupyterlab
