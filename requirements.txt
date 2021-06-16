@@ -1,0 +1,5 @@
+numpy
+scipy
+pandas
+alpaca-trade-api
+quandl
