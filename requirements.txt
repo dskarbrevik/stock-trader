@@ -1,6 +1,11 @@
-numpy
 scipy
 pandas
 alpaca-trade-api
 quandl
 jupyterlab
+scikit-learn
+sktime
+pmdarima
+seaborn
+tensorflow
+yfinance
