@@ -1,4 +1,50 @@
-import pandas as pd
+import logging
+import json
 
-df = pd.DataFrame({"hi":[1,2,3],"there":[4,5,6]})
-print(df)
+from alpaca_trade_api.stream import Stream
+from alpaca_trade_api.common import URL
+
+
+log = logging.getLogger(__name__)
+
+
+async def print_trade(t):
+    print('trade', t)
+
+
+async def print_quote(q):
+    print('quote', q)
+
+
+async def print_trade_update(tu):
+    print('trade update', tu)
+
+
+def main():
+    logging.basicConfig(level=logging.INFO)
+    
+    with open("./config.json","rb") as file:
+        config = json.load(file)
+    
+    feed = 'iex'  # <- replace to SIP if you have PRO subscription
+    stream = Stream(key_id=config['alpaca_key_id'],
+                    secret_key=config['alpaca_secret_key'],
+                    base_url=URL(config['alpaca_base_url']),
+                    data_feed=feed, raw_data=True)
+    stream.subscribe_trade_updates(print_trade_update)
+    stream.subscribe_trades(print_trade, 'AAPL')
+    stream.subscribe_quotes(print_quote, 'IBM')
+
+    @stream.on_bar('MSFT')
+    async def _(bar):
+        print('bar', bar)
+
+    @stream.on_status("*")
+    async def _(status):
+        print('status', status)
+
+    stream.run()
+
+
+if __name__ == "__main__":
+    main()
